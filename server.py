@@ -164,7 +164,8 @@ def handle_client(client_socket: socket.socket, address: tuple[str, int]) -> Non
                     content = message[len("MSG:"):].strip()
                     broadcast(f"MSG:{nickname}: {content}")
                 elif message.startswith("VOICE:"):
-                    broadcast(message)
+                    # Don't echo the speaker's own voice back to them.
+                    broadcast(message, exclude_client=client_socket)
                 else:
                     broadcast(message)
 
